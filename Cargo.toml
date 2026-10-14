@@ -1,0 +1,31 @@
+[package]
+name = "recorte"
+version = "1.0.0"
+edition = "2021"
+description = "Ferramenta de Captura para o COSMIC (clone da Ferramenta de Captura do Windows 11)"
+license = "MIT"
+
+[dependencies]
+wayland-client = "0.31"
+wayland-protocols = { version = "0.32", features = ["client", "staging", "unstable"] }
+wayland-protocols-wlr = { version = "0.3", features = ["client"] }
+cosmic-protocols = { version = "0.2", default-features = false, features = ["client"] }
+tiny-skia = { version = "0.12", default-features = false, features = ["std", "simd"] }
+ttf-parser = "0.25"
+png = "0.18"
+libc = "0.2"
+memmap2 = "0.9"
+gtk = { package = "gtk4", version = "0.11", features = ["v4_14"] }
+adw = { package = "libadwaita", version = "0.9", features = ["v1_5"] }
+cairo-rs = { version = "0.22", features = ["png"] }
+pangocairo = "0.22"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 4
+strip = true
+panic = "abort"
+
+[profile.dev.package."*"]
+opt-level = 2

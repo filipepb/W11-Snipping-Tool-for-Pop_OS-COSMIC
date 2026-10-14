@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=Ferramenta de Captura
+GenericName=Captura de tela
+Comment=Recorte, anote e compartilhe partes da tela, como no Windows 11
+Exec=@BIN@ editar %F
+Icon=io.github.recorte.Recorte
+Terminal=false
+Categories=Utility;GTK;
+Keywords=screenshot;captura;print;recorte;snipping;tela;
+StartupNotify=true
+StartupWMClass=io.github.recorte.Recorte
+Actions=novo;
+
+[Desktop Action novo]
+Name=Novo recorte
+Exec=@BIN@
