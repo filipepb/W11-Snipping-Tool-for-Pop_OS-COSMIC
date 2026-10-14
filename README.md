@@ -1,12 +1,13 @@
-# Ferramenta de Captura (recorte)
+# Ferramenta de Captura do W11 para Pop!_OS COSMIC
 
-Clone da **Ferramenta de Captura do Windows 11** para o **Pop!_OS COSMIC**, feito
-em Rust direto sobre os protocolos Wayland do COSMIC.
+Clone da **Ferramenta de Captura** (Snipping Tool) do W11 para o **Pop!_OS
+COSMIC**, feito em Rust direto sobre os protocolos Wayland do COSMIC. O programa
+se chama `recorte`.
 
 ## Instalar
 
 **Pronto para usar** (Pop!_OS 24.04 COSMIC, x86_64): baixe o pacote da
-[última release](https://github.com/Filipeparreirab/recorte/releases/latest) e rode:
+[última release](https://github.com/Filipeparreirab/Ferramenta-de-Captura-do-W11-para-Pop_OS-COSMIC/releases/latest) e rode:
 
 ```bash
 tar xzf recorte-*-x86_64.tar.gz && cd recorte-*-x86_64 && ./install.sh
@@ -15,7 +16,8 @@ tar xzf recorte-*-x86_64.tar.gz && cd recorte-*-x86_64 && ./install.sh
 **A partir do código** (requer Rust, `libgtk-4-dev` e `libadwaita-1-dev`):
 
 ```bash
-git clone https://github.com/Filipeparreirab/recorte && cd recorte
+git clone https://github.com/Filipeparreirab/Ferramenta-de-Captura-do-W11-para-Pop_OS-COSMIC recorte
+cd recorte
 ./install.sh               # compila, instala em ~/.local e liga Print / Super+Shift+S
 ./install.sh --sem-atalhos # instala sem mexer nos atalhos
 ```
@@ -48,7 +50,7 @@ a seleção pode atravessar telas com escalas diferentes (a imagem usa a maior).
 ### Editor
 
 `recorte editar [ARQUIVO]` (ou o ícone no menu). Ferramentas no centro da barra
-de título, como no Windows 11:
+de título, como no W11:
 
 - Caneta esferográfica e marca-texto (clique de novo na ferramenta para escolher
   cor e espessura); borracha que apaga traços inteiros e "Apagar toda a tinta"

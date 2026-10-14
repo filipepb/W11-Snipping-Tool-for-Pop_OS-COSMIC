@@ -2,7 +2,7 @@
 name = "recorte"
 version = "1.0.0"
 edition = "2021"
-description = "Ferramenta de Captura para o COSMIC (clone da Ferramenta de Captura do Windows 11)"
+description = "Ferramenta de Captura para o COSMIC (clone da Ferramenta de Captura do W11)"
 license = "MIT"
 
 [dependencies]

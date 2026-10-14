@@ -299,7 +299,7 @@ pub fn toolbar_size() -> (f64, f64) {
     (PAD * 2.0 + BTN * 5.0 + GAP * 3.0 + SEP, BTN + PAD * 2.0)
 }
 
-/// Botões na ordem do Windows 11 e suas posições relativas à barra.
+/// Botões na ordem do W11 e suas posições relativas à barra.
 fn toolbar_buttons() -> [(Btn, f64); 5] {
     let mut x = PAD;
     let mut out = [(Btn::Close, 0.0); 5];

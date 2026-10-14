@@ -493,7 +493,7 @@ impl Editor {
             .build();
 
         let header = adw::HeaderBar::new();
-        // "+ Novo", modo e atraso: à esquerda, como no Windows 11.
+        // "+ Novo", modo e atraso: à esquerda, como no W11.
         let new_btn = gtk::Button::new();
         let nb = gtk::Box::new(gtk::Orientation::Horizontal, 6);
         nb.append(&gtk::Image::from_icon_name("list-add-symbolic"));
@@ -1988,7 +1988,7 @@ impl Editor {
             .application_name("Ferramenta de Captura")
             .application_icon(APP_ID)
             .version(env!("CARGO_PKG_VERSION"))
-            .comments("Capturas de tela no estilo do Windows 11, integradas ao COSMIC.")
+            .comments("Capturas de tela no estilo do W11, integradas ao COSMIC.")
             .license_type(gtk::License::MitX11)
             .build();
         about.present(Some(&self.window));

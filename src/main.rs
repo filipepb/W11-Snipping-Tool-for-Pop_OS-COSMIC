@@ -1,4 +1,4 @@
-//! Ferramenta de Captura para o COSMIC — clone da Ferramenta de Captura do Windows 11.
+//! Ferramenta de Captura para o COSMIC — clone da Ferramenta de Captura do W11.
 
 mod capture;
 mod clip;
@@ -16,7 +16,7 @@ mod theme;
 mod wlimpl;
 
 const HELP: &str = "\
-Ferramenta de Captura (recorte) — capturas de tela no estilo do Windows 11
+Ferramenta de Captura (recorte) — capturas de tela no estilo do W11
 
 Uso:
   recorte                         Inicia um recorte (atalho: Print ou Super+Shift+S)
