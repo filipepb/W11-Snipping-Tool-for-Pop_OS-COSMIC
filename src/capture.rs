@@ -5,6 +5,7 @@ use std::time::Duration;
 
 use crate::config::{Config, Mode};
 use crate::draw::color;
+use crate::i18n::trf;
 use crate::snip::{self, App, Outcome};
 
 pub struct Args {
@@ -84,7 +85,7 @@ pub fn run(args: Args) -> i32 {
     let png = match img.encode_png() {
         Ok(p) => p,
         Err(e) => {
-            crate::notify::error(&format!("falha ao codificar PNG: {e}"));
+            crate::notify::error(&trf("failed to encode PNG: {}", &[&e]));
             return 2;
         }
     };
@@ -97,7 +98,7 @@ pub fn run(args: Args) -> i32 {
     };
     if let Err(e) = crate::image::write_atomic(&path, &png) {
         // Pasta inacessível: mantém a captura no diretório temporário.
-        eprintln!("recorte: não foi possível salvar em {}: {e}", path.display());
+        eprintln!("recorte: {}", trf("could not save to {}: {}", &[&path.display(), &e]));
         path = crate::paths::runtime_dir().join(&name);
         if crate::image::write_atomic(&path, &png).is_err() {
             return 2;
@@ -105,7 +106,7 @@ pub fn run(args: Args) -> i32 {
     }
     drop(png);
     if let Err(e) = crate::clip::copy_file(&path) {
-        eprintln!("recorte: falha ao copiar: {e}");
+        eprintln!("recorte: {}", trf("failed to copy: {}", &[&e]));
     }
     if args.for_editor {
         println!("{}", path.display());

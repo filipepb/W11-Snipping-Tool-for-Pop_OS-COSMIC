@@ -2,6 +2,8 @@
 
 use std::path::PathBuf;
 
+use crate::i18n::{tr, trf};
+
 pub fn home() -> PathBuf {
     std::env::var_os("HOME").map(PathBuf::from).unwrap_or_else(|| PathBuf::from("/tmp"))
 }
@@ -43,11 +45,11 @@ pub fn pictures_dir() -> PathBuf {
             return p;
         }
     }
-    home.join("Imagens")
+    home.join(tr("Pictures"))
 }
 
 pub fn default_save_dir() -> PathBuf {
-    pictures_dir().join("Capturas de tela")
+    pictures_dir().join(tr("Screenshots"))
 }
 
 pub struct LocalTime {
@@ -78,10 +80,8 @@ pub fn now() -> LocalTime {
 /// "Captura de tela 2026-10-13 143005.png", como o Windows nomeia.
 pub fn screenshot_file_name() -> String {
     let t = now();
-    format!(
-        "Captura de tela {:04}-{:02}-{:02} {:02}{:02}{:02}.png",
-        t.year, t.month, t.day, t.hour, t.min, t.sec
-    )
+    let stamp = format!("{:04}-{:02}-{:02} {:02}{:02}{:02}", t.year, t.month, t.day, t.hour, t.min, t.sec);
+    trf("Screenshot {}.png", &[&stamp])
 }
 
 /// Caminho livre em `dir` para um novo arquivo de captura.
@@ -126,5 +126,5 @@ pub fn self_exe() -> std::io::Result<PathBuf> {
     if stripped.exists() {
         return Ok(stripped);
     }
-    Err(std::io::Error::new(std::io::ErrorKind::NotFound, format!("executável não encontrado: {}", exe.display())))
+    Err(std::io::Error::new(std::io::ErrorKind::NotFound, trf("executable not found: {}", &[&exe.display()])))
 }

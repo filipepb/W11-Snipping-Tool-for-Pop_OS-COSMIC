@@ -1,11 +1,14 @@
 //! Ferramenta de Captura para o COSMIC — clone da Ferramenta de Captura do W11.
 
+use i18n::{tr, trf};
+
 mod capture;
 mod clip;
 mod config;
 mod draw;
 mod editor;
 mod font;
+mod i18n;
 mod icons;
 mod image;
 mod notify;
@@ -15,17 +18,19 @@ mod snip;
 mod theme;
 mod wlimpl;
 
-const HELP: &str = "\
-Ferramenta de Captura (recorte) — capturas de tela no estilo do W11
+fn help() -> &'static str {
+    tr("\
+Snipping Tool (recorte) — W11-style screenshots for COSMIC
 
-Uso:
-  recorte                         Inicia um recorte (atalho: Print ou Super+Shift+S)
-  recorte --modo MODO             retangulo | livre | janela | tela
-  recorte --atraso SEGUNDOS       Espera antes de congelar a tela
-  recorte editar [ARQUIVO]        Abre o editor (vazio ou com uma imagem)
-  recorte configurar-atalhos      Liga Print e Super+Shift+S a este programa no COSMIC
-  recorte --ajuda                 Mostra esta ajuda
-";
+Usage:
+  recorte                         Start a snip (shortcut: Print or Super+Shift+S)
+  recorte --mode MODE             rectangle | freeform | window | screen
+  recorte --delay SECONDS         Wait before freezing the screen
+  recorte edit [FILE]             Open the editor (empty or with an image)
+  recorte setup-shortcuts         Bind Print and Super+Shift+S to this program in COSMIC
+  recorte --help                  Show this help
+")
+}
 
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
@@ -35,7 +40,7 @@ fn main() {
             Some(p) => clip::serve(std::path::Path::new(p)),
             None => 2,
         },
-        Some("configurar-atalhos") => match shortcuts::install() {
+        Some("setup-shortcuts" | "configurar-atalhos") => match shortcuts::install() {
             Ok(msg) => {
                 println!("{msg}");
                 0
@@ -46,7 +51,7 @@ fn main() {
             }
         },
         Some("-h" | "--help" | "--ajuda") => {
-            print!("{HELP}");
+            print!("{}", help());
             0
         }
         _ => {
@@ -54,17 +59,17 @@ fn main() {
             let mut it = args.iter();
             while let Some(arg) = it.next() {
                 match arg.as_str() {
-                    "--modo" | "-m" => match it.next().and_then(|m| config::Mode::parse(m)) {
+                    "--mode" | "--modo" | "-m" => match it.next().and_then(|m| config::Mode::parse(m)) {
                         Some(m) => a.mode = Some(m),
                         None => {
-                            eprintln!("recorte: modo inválido (use retangulo, livre, janela ou tela)");
+                            eprintln!("recorte: {}", tr("invalid mode (use rectangle, freeform, window or screen)"));
                             std::process::exit(2);
                         }
                     },
-                    "--atraso" | "-a" => a.delay = it.next().and_then(|d| d.parse().ok()).unwrap_or(0).min(60),
-                    "--para-editor" => a.for_editor = true,
+                    "--delay" | "--atraso" | "-d" | "-a" => a.delay = it.next().and_then(|d| d.parse().ok()).unwrap_or(0).min(60),
+                    "--for-editor" | "--para-editor" => a.for_editor = true,
                     other => {
-                        eprintln!("recorte: argumento desconhecido: {other}\n\n{HELP}");
+                        eprintln!("recorte: {}\n\n{}", trf("unknown argument: {}", &[&other]), help());
                         std::process::exit(2);
                     }
                 }

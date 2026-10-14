@@ -1,8 +1,8 @@
 [package]
 name = "recorte"
-version = "1.0.0"
+version = "1.1.0"
 edition = "2021"
-description = "Ferramenta de Captura para o COSMIC (clone da Ferramenta de Captura do W11)"
+description = "Snipping Tool for COSMIC (a clone of the W11 Snipping Tool)"
 license = "MIT"
 
 [dependencies]

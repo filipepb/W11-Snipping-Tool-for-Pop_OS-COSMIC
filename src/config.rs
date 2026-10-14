@@ -2,6 +2,8 @@
 
 use std::path::PathBuf;
 
+use crate::i18n::tr;
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Mode {
     Rect,
@@ -34,19 +36,19 @@ impl Mode {
 
     pub fn label(self) -> &'static str {
         match self {
-            Mode::Rect => "Retângulo",
-            Mode::Free => "Forma livre",
-            Mode::Window => "Janela",
-            Mode::Screen => "Tela inteira",
+            Mode::Rect => tr("Rectangle"),
+            Mode::Free => tr("Freeform"),
+            Mode::Window => tr("Window"),
+            Mode::Screen => tr("Full screen"),
         }
     }
 
     pub fn tooltip(self) -> &'static str {
         match self {
-            Mode::Rect => "Recorte retangular",
-            Mode::Free => "Recorte de forma livre",
-            Mode::Window => "Recorte de janela",
-            Mode::Screen => "Recorte de tela inteira",
+            Mode::Rect => tr("Rectangle mode"),
+            Mode::Free => tr("Freeform mode"),
+            Mode::Window => tr("Window mode"),
+            Mode::Screen => tr("Full screen mode"),
         }
     }
 }

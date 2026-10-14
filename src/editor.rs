@@ -10,6 +10,7 @@ use adw::prelude::*;
 use gtk::{cairo, gdk, gio, glib, graphene, pango};
 
 use crate::config::{color_hex, Config, Mode};
+use crate::i18n::{tr, trf};
 use crate::notify::APP_ID;
 
 const MARGIN: f64 = 32.0;
@@ -88,10 +89,10 @@ impl ShapeKind {
     }
     fn label(self) -> &'static str {
         match self {
-            ShapeKind::Rect => "Retângulo",
-            ShapeKind::Ellipse => "Elipse",
-            ShapeKind::Line => "Linha",
-            ShapeKind::Arrow => "Seta",
+            ShapeKind::Rect => tr("Rectangle"),
+            ShapeKind::Ellipse => tr("Ellipse"),
+            ShapeKind::Line => tr("Line"),
+            ShapeKind::Arrow => tr("Arrow"),
         }
     }
 }
@@ -486,7 +487,7 @@ impl Editor {
         let cfg = Config::load();
         let window = adw::ApplicationWindow::builder()
             .application(app)
-            .title("Ferramenta de Captura")
+            .title(tr("Snipping Tool"))
             .icon_name(APP_ID)
             .default_width(760)
             .default_height(420)
@@ -497,12 +498,12 @@ impl Editor {
         let new_btn = gtk::Button::new();
         let nb = gtk::Box::new(gtk::Orientation::Horizontal, 6);
         nb.append(&gtk::Image::from_icon_name("list-add-symbolic"));
-        nb.append(&gtk::Label::new(Some("Novo")));
+        nb.append(&gtk::Label::new(Some(tr("New"))));
         new_btn.set_child(Some(&nb));
         new_btn.add_css_class("suggested-action");
         new_btn.add_css_class("new-button");
         new_btn.set_action_name(Some("win.new"));
-        new_btn.set_tooltip_text(Some("Novo recorte (Ctrl+N)"));
+        new_btn.set_tooltip_text(Some(tr("New snip (Ctrl+N)")));
         header.pack_start(&new_btn);
 
         let mode_icon = gtk::Image::from_icon_name(mode_icon_name(cfg.mode));
@@ -511,7 +512,7 @@ impl Editor {
         mb.append(&mode_icon);
         mb.append(&gtk::Image::from_icon_name("pan-down-symbolic"));
         mode_btn.set_child(Some(&mb));
-        mode_btn.set_tooltip_text(Some("Modo de recorte"));
+        mode_btn.set_tooltip_text(Some(tr("Snipping mode")));
         mode_btn.add_css_class("flat");
         header.pack_start(&mode_btn);
 
@@ -522,25 +523,25 @@ impl Editor {
         db.append(&delay_label);
         db.append(&gtk::Image::from_icon_name("pan-down-symbolic"));
         delay_btn.set_child(Some(&db));
-        delay_btn.set_tooltip_text(Some("Atraso do recorte"));
+        delay_btn.set_tooltip_text(Some(tr("Snip delay")));
         delay_btn.add_css_class("flat");
         header.pack_start(&delay_btn);
 
         // Ações à direita.
         let menu = gio::Menu::new();
-        menu.append(Some("Abrir arquivo…"), Some("win.open"));
-        menu.append(Some("Salvar como…"), Some("win.save"));
+        menu.append(Some(tr("Open file…")), Some("win.open"));
+        menu.append(Some(tr("Save as…")), Some("win.save"));
         let sec = gio::Menu::new();
-        sec.append(Some("Configurações"), Some("win.settings"));
-        sec.append(Some("Sobre a Ferramenta de Captura"), Some("win.about"));
+        sec.append(Some(tr("Settings")), Some("win.settings"));
+        sec.append(Some(tr("About Snipping Tool")), Some("win.about"));
         menu.append_section(None, &sec);
         let more = gtk::MenuButton::builder().icon_name("view-more-symbolic").menu_model(&menu).tooltip_text("Ver mais").build();
         more.add_css_class("flat");
         header.pack_end(&more);
-        let copy_btn = icon_button("edit-copy-symbolic", "Copiar (Ctrl+C)");
+        let copy_btn = icon_button("edit-copy-symbolic", tr("Copy (Ctrl+C)"));
         copy_btn.set_action_name(Some("win.copy"));
         header.pack_end(&copy_btn);
-        let save_btn = icon_button("document-save-symbolic", "Salvar como (Ctrl+S)");
+        let save_btn = icon_button("document-save-symbolic", tr("Save as (Ctrl+S)"));
         save_btn.set_action_name(Some("win.save"));
         header.pack_end(&save_btn);
 
@@ -550,21 +551,21 @@ impl Editor {
         let zb = gtk::Box::new(gtk::Orientation::Horizontal, 4);
         zb.append(&gtk::Image::from_icon_name("zoom-in-symbolic"));
         zoom_btn.set_child(Some(&zb));
-        zoom_btn.set_tooltip_text(Some("Zoom"));
+        zoom_btn.set_tooltip_text(Some(tr("Zoom")));
         zoom_btn.add_css_class("flat");
         let zpop = gtk::Box::new(gtk::Orientation::Horizontal, 4);
         zpop.set_margin_start(6);
         zpop.set_margin_end(6);
         zpop.set_margin_top(6);
         zpop.set_margin_bottom(6);
-        let zout = icon_button("zoom-out-symbolic", "Reduzir (Ctrl+−)");
+        let zout = icon_button("zoom-out-symbolic", tr("Zoom out (Ctrl+−)"));
         zout.set_action_name(Some("win.zoom-out"));
-        let zin = icon_button("zoom-in-symbolic", "Ampliar (Ctrl++)");
+        let zin = icon_button("zoom-in-symbolic", tr("Zoom in (Ctrl++)"));
         zin.set_action_name(Some("win.zoom-in"));
-        let zfit = gtk::Button::with_label("Ajustar");
+        let zfit = gtk::Button::with_label(tr("Fit"));
         zfit.add_css_class("flat");
         zfit.set_action_name(Some("win.zoom-fit"));
-        zfit.set_tooltip_text(Some("Ajustar à janela (Ctrl+0)"));
+        zfit.set_tooltip_text(Some(tr("Fit to window (Ctrl+0)")));
         let z100 = gtk::Button::with_label("100%");
         z100.add_css_class("flat");
         z100.set_action_name(Some("win.zoom-100"));
@@ -582,7 +583,7 @@ impl Editor {
         let crop_bar = gtk::Box::new(gtk::Orientation::Horizontal, 6);
         let title_stack = gtk::Stack::new();
         title_stack.set_transition_type(gtk::StackTransitionType::Crossfade);
-        title_stack.add_named(&adw::WindowTitle::new("Ferramenta de Captura", ""), Some("title"));
+        title_stack.add_named(&adw::WindowTitle::new(tr("Snipping Tool"), ""), Some("title"));
         title_stack.add_named(&tools, Some("tools"));
         title_stack.add_named(&crop_bar, Some("crop"));
         header.set_title_widget(Some(&title_stack));
@@ -601,7 +602,7 @@ impl Editor {
         let empty = gtk::Box::new(gtk::Orientation::Vertical, 18);
         empty.set_valign(gtk::Align::Center);
         empty.set_halign(gtk::Align::Center);
-        let hint = gtk::Label::new(Some("Pressione Print Screen ou Super + Shift + S para iniciar um recorte."));
+        let hint = gtk::Label::new(Some(tr("Press Print Screen or Super + Shift + S to start a snip.")));
         hint.add_css_class("empty-hint");
         hint.add_css_class("dim-label");
         hint.set_wrap(true);
@@ -697,7 +698,7 @@ impl Editor {
     fn build_delay_menu(self: &Rc<Self>, btn: &gtk::MenuButton) {
         let list = gtk::Box::new(gtk::Orientation::Vertical, 2);
         let pop = gtk::Popover::builder().child(&list).build();
-        for (d, label) in [(0, "Sem atraso"), (3, "Atraso de 3 segundos"), (5, "Atraso de 5 segundos"), (10, "Atraso de 10 segundos")] {
+        for (d, label) in [(0, tr("No delay")), (3, tr("Delay snip by 3 seconds")), (5, tr("Delay snip by 5 seconds")), (10, tr("Delay snip by 10 seconds"))] {
             let row = gtk::Button::with_label(label);
             row.add_css_class("flat");
             if let Some(l) = row.child().and_downcast::<gtk::Label>() {
@@ -717,11 +718,11 @@ impl Editor {
 
     fn build_tools(self: &Rc<Self>, tools: &gtk::Box) {
         let defs: [(Tool, &str, &str); 5] = [
-            (Tool::Pen, "recorte-pen-symbolic", "Caneta esferográfica"),
-            (Tool::Highlighter, "recorte-highlighter-symbolic", "Marca-texto"),
-            (Tool::Eraser, "recorte-eraser-symbolic", "Borracha"),
-            (Tool::Shape, "", "Formas"),
-            (Tool::Text, "recorte-text-symbolic", "Texto"),
+            (Tool::Pen, "recorte-pen-symbolic", tr("Ballpoint pen")),
+            (Tool::Highlighter, "recorte-highlighter-symbolic", tr("Highlighter")),
+            (Tool::Eraser, "recorte-eraser-symbolic", tr("Eraser")),
+            (Tool::Shape, "", tr("Shapes")),
+            (Tool::Text, "recorte-text-symbolic", tr("Text")),
         ];
         for (tool, icon, tip) in defs {
             let b = gtk::Button::new();
@@ -753,14 +754,14 @@ impl Editor {
             tools.append(&b);
             self.tool_buttons.borrow_mut().push((tool, b, bar));
         }
-        let crop = icon_button("recorte-crop-symbolic", "Recortar imagem");
+        let crop = icon_button("recorte-crop-symbolic", tr("Image crop"));
         crop.add_css_class("tool-button");
         crop.set_action_name(Some("win.crop"));
         tools.append(&crop);
         tools.append(&gtk::Separator::new(gtk::Orientation::Vertical));
-        let undo = icon_button("edit-undo-symbolic", "Desfazer (Ctrl+Z)");
+        let undo = icon_button("edit-undo-symbolic", tr("Undo (Ctrl+Z)"));
         undo.set_action_name(Some("win.undo"));
-        let redo = icon_button("edit-redo-symbolic", "Refazer (Ctrl+Y)");
+        let redo = icon_button("edit-redo-symbolic", tr("Redo (Ctrl+Y)"));
         redo.set_action_name(Some("win.redo"));
         tools.append(&undo);
         tools.append(&redo);
@@ -768,15 +769,15 @@ impl Editor {
     }
 
     fn build_crop_bar(self: &Rc<Self>, bar: &gtk::Box) {
-        let label = gtk::Label::new(Some("Recortar imagem"));
+        let label = gtk::Label::new(Some(tr("Image crop")));
         label.add_css_class("heading");
         label.set_margin_end(12);
         let apply = gtk::Button::from_icon_name("object-select-symbolic");
-        apply.set_tooltip_text(Some("Aplicar (Enter)"));
+        apply.set_tooltip_text(Some(tr("Apply (Enter)")));
         apply.add_css_class("suggested-action");
         apply.set_action_name(Some("win.crop-apply"));
         let cancel = gtk::Button::from_icon_name("window-close-symbolic");
-        cancel.set_tooltip_text(Some("Cancelar (Esc)"));
+        cancel.set_tooltip_text(Some(tr("Cancel (Esc)")));
         cancel.add_css_class("flat");
         cancel.set_action_name(Some("win.crop-cancel"));
         bar.append(&label);
@@ -793,7 +794,7 @@ impl Editor {
         content.set_margin_bottom(10);
         let pop = gtk::Popover::builder().child(&content).build();
         if tool == Tool::Eraser {
-            let b = gtk::Button::with_label("Apagar toda a tinta");
+            let b = gtk::Button::with_label(tr("Erase all ink"));
             b.add_css_class("flat");
             let ed = self.clone();
             let pop2 = pop.clone();
@@ -880,10 +881,10 @@ impl Editor {
         let (min, max, value, label) = {
             let cfg = self.cfg.borrow();
             match tool {
-                Tool::Pen => (1.0, 24.0, cfg.pen_size, "Espessura"),
-                Tool::Highlighter => (6.0, 48.0, cfg.hl_size, "Espessura"),
-                Tool::Shape => (1.0, 24.0, cfg.shape_size, "Espessura"),
-                _ => (10.0, 96.0, cfg.text_size, "Tamanho do texto"),
+                Tool::Pen => (1.0, 24.0, cfg.pen_size, tr("Thickness")),
+                Tool::Highlighter => (6.0, 48.0, cfg.hl_size, tr("Thickness")),
+                Tool::Shape => (1.0, 24.0, cfg.shape_size, tr("Thickness")),
+                _ => (10.0, 96.0, cfg.text_size, tr("Text size")),
             }
         };
         let l = gtk::Label::new(Some(label));
@@ -909,7 +910,7 @@ impl Editor {
         content.append(&scale);
         if tool == Tool::Shape {
             let row = gtk::Box::new(gtk::Orientation::Horizontal, 8);
-            let l = gtk::Label::new(Some("Preencher forma"));
+            let l = gtk::Label::new(Some(tr("Fill shape")));
             l.set_hexpand(true);
             l.set_xalign(0.0);
             let sw = gtk::Switch::new();
@@ -1097,7 +1098,7 @@ impl Editor {
                 self.update_sensitivity();
                 self.area.queue_draw();
             }
-            Err(e) => self.toast(&format!("Não foi possível abrir a imagem: {e}")),
+            Err(e) => self.toast(&trf("Could not open the image: {}", &[&e])),
         }
     }
 
@@ -1798,7 +1799,7 @@ impl Editor {
 
     fn export_png(&self, path: &Path) -> Result<(), String> {
         let doc = self.doc.borrow();
-        let d = doc.as_ref().ok_or("nenhuma imagem")?;
+        let d = doc.as_ref().ok_or(tr("no image"))?;
         let c = d.state.crop;
         let surf = cairo::ImageSurface::create(cairo::Format::ARgb32, c.w.round() as i32, c.h.round() as i32).map_err(|e| e.to_string())?;
         {
@@ -1829,9 +1830,9 @@ impl Editor {
         let path = crate::paths::runtime_dir().join(format!("editado-{:02}{:02}{:02}-{}.png", t.hour, t.min, t.sec, std::process::id()));
         let result = self.export_png(&path).and_then(|_| crate::clip::copy_file(&path).map_err(|e| e.to_string()));
         match result {
-            Ok(()) if explicit => self.toast("Copiado para a área de transferência"),
+            Ok(()) if explicit => self.toast(tr("Copied to clipboard")),
             Ok(()) => {}
-            Err(e) => self.toast(&format!("Não foi possível copiar: {e}")),
+            Err(e) => self.toast(&trf("Could not copy: {}", &[&e])),
         }
     }
 
@@ -1843,12 +1844,12 @@ impl Editor {
         let dir = self.cfg.borrow().save_dir.clone();
         let _ = std::fs::create_dir_all(&dir);
         let filter = gtk::FileFilter::new();
-        filter.set_name(Some("Imagem PNG"));
+        filter.set_name(Some(tr("PNG image")));
         filter.add_mime_type("image/png");
         let filters = gio::ListStore::new::<gtk::FileFilter>();
         filters.append(&filter);
         let dialog = gtk::FileDialog::builder()
-            .title("Salvar como")
+            .title(tr("Save as"))
             .initial_folder(&gio::File::for_path(&dir))
             .initial_name(crate::paths::screenshot_file_name())
             .filters(&filters)
@@ -1867,24 +1868,24 @@ impl Editor {
                         d.dirty = false;
                     }
                     *ed.path.borrow_mut() = Some(path.clone());
-                    ed.toast(&format!("Salvo em {}", path.display()));
+                    ed.toast(&trf("Saved to {}", &[&path.display()]));
                     if let Some(f) = then {
                         f(&ed);
                     }
                 }
-                Err(e) => ed.toast(&format!("Não foi possível salvar: {e}")),
+                Err(e) => ed.toast(&trf("Could not save: {}", &[&e])),
             }
         });
     }
 
     fn open_dialog(self: &Rc<Self>) {
         let filter = gtk::FileFilter::new();
-        filter.set_name(Some("Imagens"));
+        filter.set_name(Some(tr("Images")));
         filter.add_pixbuf_formats();
         let filters = gio::ListStore::new::<gtk::FileFilter>();
         filters.append(&filter);
         let dialog = gtk::FileDialog::builder()
-            .title("Abrir")
+            .title(tr("Open"))
             .initial_folder(&gio::File::for_path(&self.cfg.borrow().save_dir))
             .filters(&filters)
             .modal(true)
@@ -1905,8 +1906,8 @@ impl Editor {
 
     /// "Deseja salvar as alterações?" — e então continua com `then`.
     fn ask_save(self: &Rc<Self>, then: Box<dyn FnOnce(&Rc<Editor>)>) {
-        let dialog = adw::AlertDialog::new(Some("Deseja salvar as alterações?"), Some("Este recorte foi editado e as alterações ainda não foram salvas."));
-        dialog.add_responses(&[("cancel", "Cancelar"), ("discard", "Não salvar"), ("save", "Salvar")]);
+        let dialog = adw::AlertDialog::new(Some(tr("Save your changes?")), Some(tr("This snip has been edited and the changes have not been saved.")));
+        dialog.add_responses(&[("cancel", tr("Cancel")), ("discard", tr("Don't save")), ("save", tr("Save"))]);
         dialog.set_response_appearance("save", adw::ResponseAppearance::Suggested);
         dialog.set_response_appearance("discard", adw::ResponseAppearance::Destructive);
         dialog.set_default_response(Some("save"));
@@ -1954,11 +1955,11 @@ impl Editor {
             let delay_s = delay.to_string();
             let argv: [&std::ffi::OsStr; 6] = [
                 exe.as_os_str(),
-                "--modo".as_ref(),
+                "--mode".as_ref(),
                 mode.key().as_ref(),
-                "--atraso".as_ref(),
+                "--delay".as_ref(),
                 delay_s.as_ref(),
-                "--para-editor".as_ref(),
+                "--for-editor".as_ref(),
             ];
             let result = match gio::Subprocess::newv(&argv, gio::SubprocessFlags::STDOUT_PIPE) {
                 Ok(p) => p.communicate_utf8_future(None).await.ok().map(|(out, _)| out),
@@ -1985,10 +1986,10 @@ impl Editor {
 
     fn show_about(&self) {
         let about = adw::AboutDialog::builder()
-            .application_name("Ferramenta de Captura")
+            .application_name(tr("Snipping Tool"))
             .application_icon(APP_ID)
             .version(env!("CARGO_PKG_VERSION"))
-            .comments("Capturas de tela no estilo do W11, integradas ao COSMIC.")
+            .comments(tr("W11-style screenshots, integrated with COSMIC."))
             .license_type(gtk::License::MitX11)
             .build();
         about.present(Some(&self.window));
@@ -1997,7 +1998,7 @@ impl Editor {
     fn show_settings(self: &Rc<Self>) {
         let cfg = self.cfg.borrow().clone();
         let dialog = adw::PreferencesDialog::new();
-        dialog.set_title("Configurações");
+        dialog.set_title(tr("Settings"));
         let page = adw::PreferencesPage::new();
 
         let switch = |title: &str, subtitle: &str, active: bool, f: fn(&mut Config, bool)| {
@@ -2013,13 +2014,13 @@ impl Editor {
             row
         };
 
-        let cap = adw::PreferencesGroup::builder().title("Recorte").build();
-        cap.add(&switch("Escurecer a tela durante o recorte", "", cfg.dim, |c, v| c.dim = v));
-        cap.add(&switch("Mostrar notificação", "Clique na notificação para marcar e compartilhar", cfg.notify, |c, v| c.notify = v));
-        cap.add(&switch("Abrir o editor após cada recorte", "", cfg.open_editor, |c, v| c.open_editor = v));
-        let border = switch("Adicionar borda a cada captura de tela", "", cfg.border, |c, v| c.border = v);
+        let cap = adw::PreferencesGroup::builder().title(tr("Snipping")).build();
+        cap.add(&switch(tr("Dim the screen while snipping"), "", cfg.dim, |c, v| c.dim = v));
+        cap.add(&switch(tr("Show notification"), tr("Click the notification to mark up and share"), cfg.notify, |c, v| c.notify = v));
+        cap.add(&switch(tr("Open the editor after each snip"), "", cfg.open_editor, |c, v| c.open_editor = v));
+        let border = switch(tr("Add border to each screenshot"), "", cfg.border, |c, v| c.border = v);
         cap.add(&border);
-        let color_row = adw::ActionRow::builder().title("Cor e espessura da borda").build();
+        let color_row = adw::ActionRow::builder().title(tr("Border color and thickness")).build();
         let color_btn = gtk::ColorDialogButton::new(Some(gtk::ColorDialog::new()));
         let bc = cfg.border_color;
         color_btn.set_rgba(&gdk::RGBA::new(bc[0] as f32 / 255.0, bc[1] as f32 / 255.0, bc[2] as f32 / 255.0, 1.0));
@@ -2044,15 +2045,15 @@ impl Editor {
         cap.add(&color_row);
         page.add(&cap);
 
-        let save = adw::PreferencesGroup::builder().title("Salvar").build();
-        save.add(&switch("Salvar capturas automaticamente", "As capturas originais são salvas em PNG", cfg.auto_save, |c, v| c.auto_save = v));
-        let folder = adw::ActionRow::builder().title("Pasta de capturas de tela").subtitle(cfg.save_dir.display().to_string()).build();
-        let change = gtk::Button::with_label("Alterar…");
+        let save = adw::PreferencesGroup::builder().title(tr("Saving")).build();
+        save.add(&switch(tr("Automatically save screenshots"), tr("Original screenshots are saved as PNG"), cfg.auto_save, |c, v| c.auto_save = v));
+        let folder = adw::ActionRow::builder().title(tr("Screenshots folder")).subtitle(cfg.save_dir.display().to_string()).build();
+        let change = gtk::Button::with_label(tr("Change…"));
         change.set_valign(gtk::Align::Center);
         let ed = self.clone();
         let folder2 = folder.clone();
         change.connect_clicked(move |_| {
-            let dlg = gtk::FileDialog::builder().title("Pasta de capturas de tela").modal(true).build();
+            let dlg = gtk::FileDialog::builder().title(tr("Screenshots folder")).modal(true).build();
             let ed = ed.clone();
             let folder = folder2.clone();
             glib::spawn_future_local(async move {
@@ -2066,22 +2067,22 @@ impl Editor {
         });
         folder.add_suffix(&change);
         save.add(&folder);
-        save.add(&switch("Perguntar se deseja salvar recortes editados", "", cfg.ask_save, |c, v| c.ask_save = v));
-        save.add(&switch("Copiar alterações automaticamente", "Cada edição é copiada para a área de transferência", cfg.auto_copy_edits, |c, v| c.auto_copy_edits = v));
+        save.add(&switch(tr("Ask to save edited snips"), "", cfg.ask_save, |c, v| c.ask_save = v));
+        save.add(&switch(tr("Automatically copy changes"), tr("Every edit is copied to the clipboard"), cfg.auto_copy_edits, |c, v| c.auto_copy_edits = v));
         page.add(&save);
 
         let keys = adw::PreferencesGroup::builder()
-            .title("Atalho de teclado")
-            .description("Também é possível criar o atalho em Configurações do COSMIC › Teclado › Atalhos personalizados, com o comando “recorte”.")
+            .title(tr("Keyboard shortcut"))
+            .description(tr("You can also create the shortcut in COSMIC Settings › Keyboard › Custom shortcuts, with the command “recorte”."))
             .build();
-        let row = adw::ActionRow::builder().title("Print Screen e Super + Shift + S").subtitle("Abrem a Ferramenta de Captura").build();
-        let btn = gtk::Button::with_label("Configurar");
+        let row = adw::ActionRow::builder().title(tr("Print Screen and Super + Shift + S")).subtitle(tr("Open Snipping Tool")).build();
+        let btn = gtk::Button::with_label(tr("Set up"));
         btn.set_valign(gtk::Align::Center);
         btn.add_css_class("suggested-action");
         let ed = self.clone();
         btn.connect_clicked(move |_| match crate::shortcuts::install() {
             Ok(msg) => ed.toast(&msg),
-            Err(e) => ed.toast(&format!("Não foi possível configurar: {e}")),
+            Err(e) => ed.toast(&trf("Could not set up: {}", &[&e])),
         });
         row.add_suffix(&btn);
         keys.add(&row);
@@ -2118,7 +2119,7 @@ fn mode_icon_name(m: Mode) -> &'static str {
 
 fn delay_text(d: u32) -> String {
     if d == 0 {
-        "Sem atraso".into()
+        tr("No delay").into()
     } else {
         format!("{d} s")
     }

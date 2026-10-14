@@ -1,0 +1,356 @@
+# Portuguese (Brazil) translation of Snipping Tool for COSMIC (recorte).
+# To add a language: copy this file to po/<language>.po (e.g. es.po, fr.po),
+# translate every msgstr and add the file to CATALOGS in src/i18n.rs.
+# Keep each "{}" placeholder; they are replaced in order.
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt_BR\n"
+
+msgid ""
+"Snipping Tool (recorte) — W11-style screenshots for COSMIC\n"
+"\n"
+"Usage:\n"
+"  recorte                         Start a snip (shortcut: Print or Super+Shift+S)\n"
+"  recorte --mode MODE             rectangle | freeform | window | screen\n"
+"  recorte --delay SECONDS         Wait before freezing the screen\n"
+"  recorte edit [FILE]             Open the editor (empty or with an image)\n"
+"  recorte setup-shortcuts         Bind Print and Super+Shift+S to this program in COSMIC\n"
+"  recorte --help                  Show this help\n"
+msgstr ""
+"Ferramenta de Captura (recorte) — capturas de tela no estilo do W11\n"
+"\n"
+"Uso:\n"
+"  recorte                         Inicia um recorte (atalho: Print ou Super+Shift+S)\n"
+"  recorte --modo MODO             retangulo | livre | janela | tela\n"
+"  recorte --atraso SEGUNDOS       Espera antes de congelar a tela\n"
+"  recorte editar [ARQUIVO]        Abre o editor (vazio ou com uma imagem)\n"
+"  recorte configurar-atalhos      Liga Print e Super+Shift+S a este programa no COSMIC\n"
+"  recorte --ajuda                 Mostra esta ajuda\n"
+
+msgid "invalid mode (use rectangle, freeform, window or screen)"
+msgstr "modo inválido (use retangulo, livre, janela ou tela)"
+
+msgid "unknown argument: {}"
+msgstr "argumento desconhecido: {}"
+
+msgid "Rectangle"
+msgstr "Retângulo"
+
+msgid "Ellipse"
+msgstr "Elipse"
+
+msgid "Line"
+msgstr "Linha"
+
+msgid "Arrow"
+msgstr "Seta"
+
+msgid "Snipping Tool"
+msgstr "Ferramenta de Captura"
+
+msgid "New"
+msgstr "Novo"
+
+msgid "New snip (Ctrl+N)"
+msgstr "Novo recorte (Ctrl+N)"
+
+msgid "Snipping mode"
+msgstr "Modo de recorte"
+
+msgid "Snip delay"
+msgstr "Atraso do recorte"
+
+msgid "Open file…"
+msgstr "Abrir arquivo…"
+
+msgid "Save as…"
+msgstr "Salvar como…"
+
+msgid "Settings"
+msgstr "Configurações"
+
+msgid "About Snipping Tool"
+msgstr "Sobre a Ferramenta de Captura"
+
+msgid "Copy (Ctrl+C)"
+msgstr "Copiar (Ctrl+C)"
+
+msgid "Save as (Ctrl+S)"
+msgstr "Salvar como (Ctrl+S)"
+
+msgid "Zoom"
+msgstr "Zoom"
+
+msgid "Zoom out (Ctrl+−)"
+msgstr "Reduzir (Ctrl+−)"
+
+msgid "Zoom in (Ctrl++)"
+msgstr "Ampliar (Ctrl++)"
+
+msgid "Fit"
+msgstr "Ajustar"
+
+msgid "Fit to window (Ctrl+0)"
+msgstr "Ajustar à janela (Ctrl+0)"
+
+msgid "Press Print Screen or Super + Shift + S to start a snip."
+msgstr "Pressione Print Screen ou Super + Shift + S para iniciar um recorte."
+
+msgid "No delay"
+msgstr "Sem atraso"
+
+msgid "Delay snip by 3 seconds"
+msgstr "Atraso de 3 segundos"
+
+msgid "Delay snip by 5 seconds"
+msgstr "Atraso de 5 segundos"
+
+msgid "Delay snip by 10 seconds"
+msgstr "Atraso de 10 segundos"
+
+msgid "Ballpoint pen"
+msgstr "Caneta esferográfica"
+
+msgid "Highlighter"
+msgstr "Marca-texto"
+
+msgid "Eraser"
+msgstr "Borracha"
+
+msgid "Shapes"
+msgstr "Formas"
+
+msgid "Text"
+msgstr "Texto"
+
+msgid "Image crop"
+msgstr "Recortar imagem"
+
+msgid "Undo (Ctrl+Z)"
+msgstr "Desfazer (Ctrl+Z)"
+
+msgid "Redo (Ctrl+Y)"
+msgstr "Refazer (Ctrl+Y)"
+
+msgid "Apply (Enter)"
+msgstr "Aplicar (Enter)"
+
+msgid "Cancel (Esc)"
+msgstr "Cancelar (Esc)"
+
+msgid "Erase all ink"
+msgstr "Apagar toda a tinta"
+
+msgid "Thickness"
+msgstr "Espessura"
+
+msgid "Text size"
+msgstr "Tamanho do texto"
+
+msgid "Fill shape"
+msgstr "Preencher forma"
+
+msgid "Could not open the image: {}"
+msgstr "Não foi possível abrir a imagem: {}"
+
+msgid "no image"
+msgstr "nenhuma imagem"
+
+msgid "Copied to clipboard"
+msgstr "Copiado para a área de transferência"
+
+msgid "Could not copy: {}"
+msgstr "Não foi possível copiar: {}"
+
+msgid "PNG image"
+msgstr "Imagem PNG"
+
+msgid "Save as"
+msgstr "Salvar como"
+
+msgid "Saved to {}"
+msgstr "Salvo em {}"
+
+msgid "Could not save: {}"
+msgstr "Não foi possível salvar: {}"
+
+msgid "Images"
+msgstr "Imagens"
+
+msgid "Open"
+msgstr "Abrir"
+
+msgid "Save your changes?"
+msgstr "Deseja salvar as alterações?"
+
+msgid "This snip has been edited and the changes have not been saved."
+msgstr "Este recorte foi editado e as alterações ainda não foram salvas."
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Don't save"
+msgstr "Não salvar"
+
+msgid "Save"
+msgstr "Salvar"
+
+msgid "W11-style screenshots, integrated with COSMIC."
+msgstr "Capturas de tela no estilo do W11, integradas ao COSMIC."
+
+msgid "Snipping"
+msgstr "Recorte"
+
+msgid "Dim the screen while snipping"
+msgstr "Escurecer a tela durante o recorte"
+
+msgid "Show notification"
+msgstr "Mostrar notificação"
+
+msgid "Click the notification to mark up and share"
+msgstr "Clique na notificação para marcar e compartilhar"
+
+msgid "Open the editor after each snip"
+msgstr "Abrir o editor após cada recorte"
+
+msgid "Add border to each screenshot"
+msgstr "Adicionar borda a cada captura de tela"
+
+msgid "Border color and thickness"
+msgstr "Cor e espessura da borda"
+
+msgid "Saving"
+msgstr "Salvar"
+
+msgid "Automatically save screenshots"
+msgstr "Salvar capturas automaticamente"
+
+msgid "Original screenshots are saved as PNG"
+msgstr "As capturas originais são salvas em PNG"
+
+msgid "Screenshots folder"
+msgstr "Pasta de capturas de tela"
+
+msgid "Change…"
+msgstr "Alterar…"
+
+msgid "Ask to save edited snips"
+msgstr "Perguntar se deseja salvar recortes editados"
+
+msgid "Automatically copy changes"
+msgstr "Copiar alterações automaticamente"
+
+msgid "Every edit is copied to the clipboard"
+msgstr "Cada edição é copiada para a área de transferência"
+
+msgid "Keyboard shortcut"
+msgstr "Atalho de teclado"
+
+msgid "You can also create the shortcut in COSMIC Settings › Keyboard › Custom shortcuts, with the command “recorte”."
+msgstr "Também é possível criar o atalho em Configurações do COSMIC › Teclado › Atalhos personalizados, com o comando “recorte”."
+
+msgid "Print Screen and Super + Shift + S"
+msgstr "Print Screen e Super + Shift + S"
+
+msgid "Open Snipping Tool"
+msgstr "Abrem a Ferramenta de Captura"
+
+msgid "Set up"
+msgstr "Configurar"
+
+msgid "Could not set up: {}"
+msgstr "Não foi possível configurar: {}"
+
+msgid "Freeform"
+msgstr "Forma livre"
+
+msgid "Window"
+msgstr "Janela"
+
+msgid "Full screen"
+msgstr "Tela inteira"
+
+msgid "Rectangle mode"
+msgstr "Recorte retangular"
+
+msgid "Freeform mode"
+msgstr "Recorte de forma livre"
+
+msgid "Window mode"
+msgstr "Recorte de janela"
+
+msgid "Full screen mode"
+msgstr "Recorte de tela inteira"
+
+msgid "no Wayland connection: {}"
+msgstr "sem conexão Wayland: {}"
+
+msgid "the compositor does not offer ext-image-copy-capture-v1"
+msgstr "o compositor não oferece ext-image-copy-capture-v1"
+
+msgid "the compositor does not offer wlr-layer-shell"
+msgstr "o compositor não oferece wlr-layer-shell"
+
+msgid "no monitor found"
+msgstr "nenhum monitor encontrado"
+
+msgid "timed out while capturing the screen"
+msgstr "tempo esgotado ao capturar a tela"
+
+msgid "the compositor refused the screen capture"
+msgstr "o compositor recusou a captura de tela"
+
+msgid "Close"
+msgstr "Fechar"
+
+msgid "unexpected format in the shortcuts file; nothing was changed"
+msgstr "formato inesperado no arquivo de atalhos; nada foi alterado"
+
+msgid "The shortcuts were already set up."
+msgstr "Os atalhos já estavam configurados."
+
+msgid "Shortcuts set up: Print Screen and Super + Shift + S."
+msgstr "Atalhos configurados: Print Screen e Super + Shift + S."
+
+msgid "Pictures"
+msgstr "Imagens"
+
+msgid "Screenshots"
+msgstr "Capturas de tela"
+
+msgid "Screenshot {}.png"
+msgstr "Captura de tela {}.png"
+
+msgid "executable not found: {}"
+msgstr "executável não encontrado: {}"
+
+msgid "could not read {}: {}"
+msgstr "não foi possível ler {}: {}"
+
+msgid "no Wayland connection"
+msgstr "sem conexão Wayland"
+
+msgid "the compositor does not offer ext_data_control_v1"
+msgstr "o compositor não oferece ext_data_control_v1"
+
+msgid "failed to encode PNG: {}"
+msgstr "falha ao codificar PNG: {}"
+
+msgid "could not save to {}: {}"
+msgstr "não foi possível salvar em {}: {}"
+
+msgid "failed to copy: {}"
+msgstr "falha ao copiar: {}"
+
+msgid "Mark up and share"
+msgstr "Marcar e compartilhar"
+
+msgid "Snip copied to clipboard"
+msgstr "Recorte copiado para a área de transferência"
+
+msgid "Select here to mark up and share."
+msgstr "Selecione aqui para marcar e compartilhar."
+
+msgid "Could not capture the screen"
+msgstr "Não foi possível capturar a tela"

@@ -45,6 +45,7 @@ use cosmic_protocols::toplevel_info::v1::client::{
 
 use crate::config::Mode;
 use crate::draw::{self, color, Icon};
+use crate::i18n::{tr, trf};
 use crate::image::Image;
 
 // ---------------------------------------------------------------------------
@@ -313,7 +314,7 @@ fn toolbar_buttons() -> [(Btn, f64); 5] {
 
 impl App {
     pub fn connect(mode: Mode, dim: bool) -> Result<(Connection, EventQueue<App>, App), String> {
-        let conn = Connection::connect_to_env().map_err(|e| format!("sem conexão Wayland: {e}"))?;
+        let conn = Connection::connect_to_env().map_err(|e| trf("no Wayland connection: {}", &[&e]))?;
         let mut queue = conn.new_event_queue::<App>();
         let qh = queue.handle();
         let mut app = App {
@@ -368,10 +369,10 @@ impl App {
         queue.roundtrip(&mut app).map_err(|e| e.to_string())?;
         app.bind_globals();
         if app.g.copy.is_none() || app.g.out_src.is_none() {
-            return Err("o compositor não oferece ext-image-copy-capture-v1".into());
+            return Err(tr("the compositor does not offer ext-image-copy-capture-v1").into());
         }
         if app.g.layer_shell.is_none() || app.g.compositor.is_none() || app.g.shm.is_none() {
-            return Err("o compositor não oferece wlr-layer-shell".into());
+            return Err(tr("the compositor does not offer wlr-layer-shell").into());
         }
         // Saídas e áreas de trabalho primeiro; depois as janelas, que fazem referência a elas.
         queue.roundtrip(&mut app).map_err(|e| e.to_string())?;
@@ -379,7 +380,7 @@ impl App {
         queue.roundtrip(&mut app).map_err(|e| e.to_string())?;
         app.outputs.retain(|o| o.lw > 0 && o.lh > 0);
         if app.outputs.is_empty() {
-            return Err("nenhum monitor encontrado".into());
+            return Err(tr("no monitor found").into());
         }
         Ok((conn, queue, app))
     }
@@ -460,13 +461,13 @@ impl App {
         let deadline = Instant::now() + Duration::from_secs(5);
         while self.jobs.iter().any(|j| matches!(j.kind, JobKind::Output(_)) && !j.finished) {
             if Instant::now() > deadline {
-                return Err("tempo esgotado ao capturar a tela".into());
+                return Err(tr("timed out while capturing the screen").into());
             }
             queue.blocking_dispatch(self).map_err(|e| e.to_string())?;
         }
         self.jobs.retain(|j| !j.finished);
         if self.outputs.iter().all(|o| o.img.is_none()) {
-            return Err("o compositor recusou a captura de tela".into());
+            return Err(tr("the compositor refused the screen capture").into());
         }
         self.outputs.retain(|o| o.img.is_some());
         Ok(())
@@ -1385,7 +1386,7 @@ fn lighten(c: Color) -> Color {
 fn draw_tooltip(pm: &mut PixmapMut, font: &crate::font::Font, x: f32, y: f32, s: f32, btn: Btn) {
     let text = match btn {
         Btn::Mode(m) => m.tooltip(),
-        Btn::Close => "Fechar",
+        Btn::Close => tr("Close"),
     };
     let Some((_, bx)) = toolbar_buttons().into_iter().find(|(b, _)| *b == btn) else { return };
     let px = 12.0 * s;

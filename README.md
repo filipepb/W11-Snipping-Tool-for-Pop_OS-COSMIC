@@ -1,100 +1,127 @@
-# Ferramenta de Captura do W11 para Pop!_OS COSMIC
+# W11 Snipping Tool for Pop!_OS COSMIC
 
-Clone da **Ferramenta de Captura** (Snipping Tool) do W11 para o **Pop!_OS
-COSMIC**, feito em Rust direto sobre os protocolos Wayland do COSMIC. O programa
-se chama `recorte`.
+**English** | [Português](README.pt-BR.md)
 
-## Instalar
+A clone of the **W11 Snipping Tool** for **Pop!_OS COSMIC**, written in Rust
+directly on top of COSMIC's Wayland protocols. The program is called `recorte`
+("snip" in Portuguese).
 
-**Pronto para usar** (Pop!_OS 24.04 COSMIC, x86_64): baixe o pacote da
-[última release](https://github.com/Filipeparreirab/Ferramenta-de-Captura-do-W11-para-Pop_OS-COSMIC/releases/latest) e rode:
+## Install
+
+**Ready to use** (Pop!_OS 24.04 COSMIC, x86_64): download the package from the
+[latest release](https://github.com/filipepb/W11-Snipping-Tool-for-Pop_OS-COSMIC/releases/latest) and run:
 
 ```bash
 tar xzf recorte-*-x86_64.tar.gz && cd recorte-*-x86_64 && ./install.sh
 ```
 
-**A partir do código** (requer Rust, `libgtk-4-dev` e `libadwaita-1-dev`):
+**From source** (requires Rust, `libgtk-4-dev` and `libadwaita-1-dev`):
 
 ```bash
-git clone https://github.com/Filipeparreirab/Ferramenta-de-Captura-do-W11-para-Pop_OS-COSMIC recorte
+git clone https://github.com/filipepb/W11-Snipping-Tool-for-Pop_OS-COSMIC recorte
 cd recorte
-./install.sh               # compila, instala em ~/.local e liga Print / Super+Shift+S
-./install.sh --sem-atalhos # instala sem mexer nos atalhos
+./install.sh                # builds, installs to ~/.local and binds Print / Super+Shift+S
+./install.sh --no-shortcuts # installs without touching the shortcuts
 ```
 
-O instalador grava o binário em `~/.local/bin/recorte`, o atalho no menu de
-aplicativos ("Ferramenta de Captura", com a ação "Novo recorte") e os atalhos de
-teclado do COSMIC. O arquivo de atalhos anterior fica salvo como
-`~/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom.bak-DATA`.
+The installer puts the binary in `~/.local/bin/recorte`, adds "Snipping Tool"
+to the app menu (with a "New snip" action) and sets up the COSMIC keyboard
+shortcuts. The previous shortcuts file is kept as
+`~/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom.bak-DATE`.
 
-Para criar o atalho manualmente: **Configurações › Teclado › Atalhos
-personalizados**, comando `/home/SEU_USUARIO/.local/bin/recorte`.
+To create the shortcut by hand: **Settings › Keyboard › Custom shortcuts**,
+command `/home/YOUR_USER/.local/bin/recorte`.
 
-Requer o COSMIC (usa `ext-image-copy-capture`, `wlr-layer-shell`,
-`zcosmic-toplevel-info` e `ext-data-control`).
+Requires COSMIC (uses `ext-image-copy-capture`, `wlr-layer-shell`,
+`zcosmic-toplevel-info` and `ext-data-control`).
 
-## Uso
+## Usage
 
-| Ação | Como |
+| Action | How |
 |---|---|
-| Novo recorte | `Print` ou `Super + Shift + S` |
-| Modos | Barra flutuante: retângulo, forma livre, janela, tela inteira |
-| Cancelar | `Esc` (durante o arraste, `Esc` ou botão direito desfaz a seleção) |
-| Colar | `Ctrl + V` em qualquer aplicativo — a imagem já está copiada |
-| Editar | Clique na notificação "Recorte copiado para a área de transferência" |
+| New snip | `Print` or `Super + Shift + S` |
+| Modes | Floating toolbar: rectangle, freeform, window, full screen |
+| Cancel | `Esc` (while dragging, `Esc` or right click drops the selection) |
+| Paste | `Ctrl + V` in any app — the image is already copied |
+| Edit | Click the "Snip copied to clipboard" notification |
 
-A tela é congelada e escurecida assim que o recorte começa; a área selecionada
-fica clara. O último modo escolhido na barra é lembrado. Com vários monitores,
-a seleção pode atravessar telas com escalas diferentes (a imagem usa a maior).
+The screen freezes and dims as soon as the snip starts; the selected area stays
+bright. The last mode picked on the toolbar is remembered. With several
+monitors, the selection can span screens with different scales (the image uses
+the largest one).
+
+From a terminal: `recorte --mode rectangle|freeform|window|screen`,
+`recorte --delay SECONDS`, `recorte edit [FILE]`, `recorte --help`.
 
 ### Editor
 
-`recorte editar [ARQUIVO]` (ou o ícone no menu). Ferramentas no centro da barra
-de título, como no W11:
+`recorte edit [FILE]` (or the app menu icon). Tools sit in the middle of the
+title bar, as in W11:
 
-- Caneta esferográfica e marca-texto (clique de novo na ferramenta para escolher
-  cor e espessura); borracha que apaga traços inteiros e "Apagar toda a tinta"
-- Formas: retângulo, elipse, linha e seta (`Shift` alinha/quadra; opção de preencher)
-- Texto (`Enter` confirma, `Shift + Enter` quebra a linha)
-- Recortar imagem com alças (`Enter` aplica, `Esc` cancela)
-- `Ctrl+Z` / `Ctrl+Y` desfazer e refazer, `Ctrl + roda do mouse` / `Ctrl +/−/0` zoom
-- `Ctrl+S` salvar como PNG, `Ctrl+C` copiar, `Ctrl+N` novo recorte (com modo e
-  atraso de 3, 5 ou 10 s), `Ctrl+O` abrir, arrastar uma imagem para a janela
+- Ballpoint pen and highlighter (click the tool again to pick color and
+  thickness); an eraser that removes whole strokes and "Erase all ink"
+- Shapes: rectangle, ellipse, line and arrow (`Shift` snaps/squares; optional fill)
+- Text (`Enter` confirms, `Shift + Enter` breaks the line)
+- Image crop with handles (`Enter` applies, `Esc` cancels)
+- `Ctrl+Z` / `Ctrl+Y` undo and redo, `Ctrl + mouse wheel` / `Ctrl +/−/0` zoom
+- `Ctrl+S` save as PNG, `Ctrl+C` copy, `Ctrl+N` new snip (with mode and a 3,
+  5 or 10 s delay), `Ctrl+O` open, or drop an image onto the window
 
-Cada edição é copiada automaticamente para a área de transferência.
+Every edit is copied to the clipboard automatically.
 
-### Configurações (menu ⋮ › Configurações)
+### Settings (⋮ menu › Settings)
 
-Salvar automaticamente em PNG (padrão: `~/Imagens/Capturas de tela`), escurecer
-a tela, notificação, abrir o editor após cada recorte, borda em cada captura,
-perguntar antes de descartar edições e copiar alterações automaticamente.
-Ficam em `~/.config/recorte/recorte.conf`.
+Automatically save PNGs (default: `~/Pictures/Screenshots`), dim the screen,
+notification, open the editor after each snip, border on each screenshot, ask
+before discarding edits and automatically copy changes. Stored in
+`~/.config/recorte/recorte.conf`.
 
-## Como funciona
+## Language
 
-| Módulo | Papel |
+The program follows the system language: Portuguese on a Portuguese system and
+English everywhere else. To force a language for one run: `LANGUAGE=en recorte`
+or `LANGUAGE=pt_BR recorte`.
+
+### Translating
+
+Translations live in `po/` and are embedded in the binary, so nothing extra is
+installed. To add a language:
+
+1. Copy `po/pt_BR.po` to `po/<code>.po` (for example `es.po` or `fr.po`) and
+   translate every `msgstr`, keeping each `{}` placeholder.
+2. Add the file to `CATALOGS` in `src/i18n.rs`.
+3. Run `cargo test --release`; a test checks that every text has a translation.
+
+## How it works
+
+| Module | Role |
 |---|---|
-| `snip.rs`, `wlimpl.rs` | Congela cada monitor (`ext-image-copy-capture`), desenha a sobreposição em superfícies `layer-shell` com software (tiny-skia), redesenha só as regiões alteradas |
-| `snip.rs` (janelas) | Geometria e área de trabalho via `zcosmic-toplevel-info`; como o Wayland não informa a ordem de empilhamento, cada janela visível é capturada e comparada com a tela congelada para saber qual está por cima |
-| `clip.rs` | No Wayland a área de transferência vive no processo que a oferece: cada cópia inicia `recorte __clip`, que serve o PNG via `ext-data-control` até outro app copiar algo |
-| `notify.rs` | Notificação com ação e token de ativação (abre o editor com foco) |
-| `editor.rs` | Editor GTK4/libadwaita — herda o tema do COSMIC |
-| `shortcuts.rs` | Mescla os atalhos no arquivo do COSMIC sem tocar nos demais |
+| `snip.rs`, `wlimpl.rs` | Freezes each monitor (`ext-image-copy-capture`), draws the overlay on `layer-shell` surfaces in software (tiny-skia) and redraws only the damaged regions |
+| `snip.rs` (windows) | Geometry and workspace via `zcosmic-toplevel-info`; since Wayland does not report stacking order, each visible window is captured and compared with the frozen screen to find which one is on top |
+| `clip.rs` | On Wayland the clipboard lives in the process offering it: each copy starts `recorte __clip`, which serves the PNG via `ext-data-control` until another app copies something |
+| `notify.rs` | Notification with an action and an activation token (opens the editor focused) |
+| `editor.rs` | GTK4/libadwaita editor — inherits the COSMIC theme |
+| `i18n.rs` | Translations embedded from `po/*.po` |
+| `shortcuts.rs` | Merges the shortcuts into the COSMIC file without touching the others |
 
-Nada fica rodando em segundo plano: cada recorte é um processo curto. Medido
-neste computador (1920×1080): tela inteira até o PNG salvo em 0,11 s com
-0,08 s de CPU e 46 MB de pico; sobreposição aberta usa ~54 MB e praticamente
-nenhuma CPU parada.
+Nothing runs in the background: each snip is a short-lived process. Measured on
+the author's computer (1920×1080): full screen to saved PNG in 0.11 s with
+0.08 s of CPU and a 46 MB peak; the open overlay uses ~54 MB and almost no CPU
+while idle.
 
-## Testes
+## Tests
 
 ```bash
 cargo test --release
 ```
 
-## Diferenças conhecidas em relação ao Windows
+## Known differences from Windows
 
-- Sem gravação de vídeo nem ações de texto (OCR).
-- Sem compartilhamento ("Compartilhar") e sem impressão.
-- O destaque do modo janela aparece quando o mouse se move (o COSMIC só informa
-  a posição do ponteiro após um movimento).
+- No video recording and no text actions (OCR).
+- No sharing ("Share") and no printing.
+- The window mode highlight appears once the mouse moves (COSMIC only reports
+  the pointer position after a movement).
+
+## License
+
+MIT

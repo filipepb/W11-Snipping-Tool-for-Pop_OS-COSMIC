@@ -10,6 +10,8 @@ use std::path::Path;
 use std::process::{Command, Stdio};
 use std::sync::Arc;
 
+use crate::i18n::{tr, trf};
+
 use wayland_client::protocol::{wl_registry, wl_seat};
 use wayland_client::{event_created_child, Connection, Dispatch, QueueHandle};
 use wayland_protocols::ext::data_control::v1::client::{
@@ -47,12 +49,12 @@ pub fn serve(path: &Path) -> i32 {
     let data = match std::fs::read(path) {
         Ok(d) => Arc::new(d),
         Err(e) => {
-            eprintln!("recorte: não foi possível ler {}: {e}", path.display());
+            eprintln!("recorte: {}", trf("could not read {}: {}", &[&path.display(), &e]));
             return 1;
         }
     };
     let Ok(conn) = Connection::connect_to_env() else {
-        eprintln!("recorte: sem conexão Wayland");
+        eprintln!("recorte: {}", tr("no Wayland connection"));
         return 1;
     };
     let mut queue = conn.new_event_queue();
@@ -63,7 +65,7 @@ pub fn serve(path: &Path) -> i32 {
         return 1;
     }
     let (Some(seat), Some(manager)) = (st.seat.clone(), st.manager.clone()) else {
-        eprintln!("recorte: o compositor não oferece ext_data_control_v1");
+        eprintln!("recorte: {}", tr("the compositor does not offer ext_data_control_v1"));
         return 1;
     };
     let device = manager.get_data_device(&seat, &qh, ());

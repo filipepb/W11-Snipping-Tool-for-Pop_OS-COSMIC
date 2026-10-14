@@ -1,17 +1,27 @@
 [Desktop Entry]
 Type=Application
-Name=Ferramenta de Captura
-GenericName=Captura de tela
-Comment=Recorte, anote e compartilhe partes da tela, como no W11
-Exec=@BIN@ editar %F
+Name=Snipping Tool
+Name[pt_BR]=Ferramenta de Captura
+Name[pt]=Ferramenta de Captura
+GenericName=Screenshot
+GenericName[pt_BR]=Captura de tela
+GenericName[pt]=Captura de tela
+Comment=Snip, mark up and share parts of the screen, like on W11
+Comment[pt_BR]=Recorte, anote e compartilhe partes da tela, como no W11
+Comment[pt]=Recorte, anote e compartilhe partes da tela, como no W11
+Exec=@BIN@ edit %F
 Icon=io.github.recorte.Recorte
 Terminal=false
 Categories=Utility;GTK;
-Keywords=screenshot;captura;print;recorte;snipping;tela;
+Keywords=screenshot;snip;snipping;print;capture;screen;
+Keywords[pt_BR]=captura;recorte;tela;print;screenshot;snipping;
+Keywords[pt]=captura;recorte;tela;print;screenshot;snipping;
 StartupNotify=true
 StartupWMClass=io.github.recorte.Recorte
-Actions=novo;
+Actions=new-snip;
 
-[Desktop Action novo]
-Name=Novo recorte
+[Desktop Action new-snip]
+Name=New snip
+Name[pt_BR]=Novo recorte
+Name[pt]=Novo recorte
 Exec=@BIN@

@@ -11,6 +11,8 @@ use gtk::glib;
 use gtk::prelude::*;
 use gtk::gio;
 
+use crate::i18n::tr;
+
 pub const APP_ID: &str = "io.github.recorte.Recorte";
 const DEST: &str = "org.freedesktop.Notifications";
 const PATH: &str = "/org/freedesktop/Notifications";
@@ -19,7 +21,7 @@ const PATH: &str = "/org/freedesktop/Notifications";
 pub fn spawn_editor(path: Option<&Path>, activation_token: Option<&str>) {
     let Ok(exe) = crate::paths::self_exe() else { return };
     let mut cmd = Command::new(exe);
-    cmd.arg("editar");
+    cmd.arg("edit");
     if let Some(p) = path {
         cmd.arg(p);
     }
@@ -44,13 +46,13 @@ pub fn show_and_wait(path: &Path) {
     hints.insert_value("image-path", &uri.as_str().to_variant());
     hints.insert_value("desktop-entry", &APP_ID.to_variant());
     hints.insert_value("category", &"transfer.complete".to_variant());
-    let actions: Vec<String> = vec!["default".into(), "Marcar e compartilhar".into()];
+    let actions: Vec<String> = vec!["default".into(), tr("Mark up and share").into()];
     let params = glib::Variant::tuple_from_iter([
-        "Ferramenta de Captura".to_variant(),
+        tr("Snipping Tool").to_variant(),
         0u32.to_variant(),
         APP_ID.to_variant(),
-        "Recorte copiado para a área de transferência".to_variant(),
-        "Selecione aqui para marcar e compartilhar.".to_variant(),
+        tr("Snip copied to clipboard").to_variant(),
+        tr("Select here to mark up and share.").to_variant(),
         actions.to_variant(),
         hints.end(),
         (-1i32).to_variant(),
@@ -121,10 +123,10 @@ pub fn show_and_wait(path: &Path) {
 pub fn error(body: &str) {
     let Ok(bus) = gio::bus_get_sync(gio::BusType::Session, gio::Cancellable::NONE) else { return };
     let params = glib::Variant::tuple_from_iter([
-        "Ferramenta de Captura".to_variant(),
+        tr("Snipping Tool").to_variant(),
         0u32.to_variant(),
         APP_ID.to_variant(),
-        "Não foi possível capturar a tela".to_variant(),
+        tr("Could not capture the screen").to_variant(),
         body.to_variant(),
         Vec::<String>::new().to_variant(),
         glib::VariantDict::new(None).end(),

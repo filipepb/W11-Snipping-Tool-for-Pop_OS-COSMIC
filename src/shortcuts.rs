@@ -2,6 +2,8 @@
 
 use std::path::PathBuf;
 
+use crate::i18n::tr;
+
 fn custom_file() -> PathBuf {
     crate::paths::config_dir().join("cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom")
 }
@@ -67,7 +69,7 @@ pub fn merge(old: &str, exe: &str) -> Result<String, String> {
     let exe = exe.replace('\\', "\\\\").replace('"', "\\\"");
     let body = old.trim();
     if !body.is_empty() && !(body.starts_with('{') && body.ends_with('}')) {
-        return Err("formato inesperado no arquivo de atalhos; nada foi alterado".into());
+        return Err(tr("unexpected format in the shortcuts file; nothing was changed").into());
     }
     let inner = body.strip_prefix('{').and_then(|b| b.strip_suffix('}')).unwrap_or("");
     let ours = [(vec![], "print".to_string()), (vec!["shift".to_string(), "super".to_string()], "s".to_string())];
@@ -75,8 +77,9 @@ pub fn merge(old: &str, exe: &str) -> Result<String, String> {
         .into_iter()
         .filter(|e| binding_of(e).is_none_or(|b| !ours.contains(&b)))
         .collect();
-    kept.push(format!("(modifiers: [], key: \"Print\", description: Some(\"Ferramenta de Captura\")): Spawn(\"{exe}\")"));
-    kept.push(format!("(modifiers: [Super, Shift], key: \"s\", description: Some(\"Ferramenta de Captura\")): Spawn(\"{exe}\")"));
+    let name = tr("Snipping Tool");
+    kept.push(format!("(modifiers: [], key: \"Print\", description: Some(\"{name}\")): Spawn(\"{exe}\")"));
+    kept.push(format!("(modifiers: [Super, Shift], key: \"s\", description: Some(\"{name}\")): Spawn(\"{exe}\")"));
     Ok(format!("{{\n{}\n}}\n", kept.iter().map(|e| format!("    {e},")).collect::<Vec<_>>().join("\n")))
 }
 
@@ -86,7 +89,7 @@ pub fn install() -> Result<String, String> {
     let old = std::fs::read_to_string(&file).unwrap_or_default();
     let text = merge(&old, &exe.to_string_lossy()).map_err(|e| format!("{e} ({})", file.display()))?;
     if text.trim() == old.trim() {
-        return Ok("Os atalhos já estavam configurados.".into());
+        return Ok(tr("The shortcuts were already set up.").into());
     }
     if let Some(dir) = file.parent() {
         std::fs::create_dir_all(dir).map_err(|e| e.to_string())?;
@@ -102,7 +105,7 @@ pub fn install() -> Result<String, String> {
     let tmp = file.with_file_name("custom.recorte-tmp");
     std::fs::write(&tmp, text).map_err(|e| e.to_string())?;
     std::fs::rename(&tmp, &file).map_err(|e| e.to_string())?;
-    Ok("Atalhos configurados: Print Screen e Super + Shift + S.".into())
+    Ok(tr("Shortcuts set up: Print Screen and Super + Shift + S.").into())
 }
 
 #[cfg(test)]
